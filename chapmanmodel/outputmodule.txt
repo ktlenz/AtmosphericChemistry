@@ -1,0 +1,79 @@
+   !**********      
+   ! write program output
+   !**********      
+
+   !one file per vertical level: annually on 1st January at 12:00 UT
+   do zi=1,zanz
+      write(filename,fmt='(i4.4)') int(z(zi))
+      open(10,file='results/'//filename(3:4)//'km.dat')
+      write(10,fmt='(a13)') filename(3:4)//'km altitude'
+      write(10,fmt='(a195)') '  alt.[km]     year     month       day      hour  SZA[deg]         '//&
+       &'o2-vmr         ox-vmr          o-vmr         o3-vmr    '//&
+       &'[o2][cm^-3]   [ox][1/cm^3]    [o][1/cm^3]   [o3][1/cm^3]      topo3[DU]'
+      do ti=1,tianz
+         if ((month(ti).eq.1).and.(day(ti).eq.1).and.(abs(time(ti)-12.).le.0.1)) then
+            write(10,fmt='(f9.0,1x,i9,1x,i9,1x,i9,1x,f9.2,1x,f9.2,9(1x,E14.4))')&
+             &z(zi),year(ti),month(ti),day(ti),time(ti),sza(ti),&
+             &o2(zi)/air(zi),ox(ti,zi)/air(zi),o(ti,zi)/air(zi),o3(ti,zi)/air(zi),&
+             &o2(zi),ox(ti,zi),o(ti,zi),o3(ti,zi),topo3(ti,zi)
+         endif
+      enddo
+   enddo
+   close(10)
+
+   !one vertical profile per year in separate files: annually on 1st January at 12:00 UT
+   do ti=1,tianz
+      if ((month(ti).eq.1).and.(day(ti).eq.1).and.(abs(time(ti)-12.).le.0.1)) then
+         write(filename,fmt='(i4.4)') year(ti)
+         open(10,file='results/year'//filename//'.dat')
+         write(10,fmt='(a9)') 'Year '//filename
+         write(10,fmt='(a195)') '  alt.[km]     year     month       day      hour  SZA[deg]         '//&
+          &'o2-vmr         ox-vmr          o-vmr         o3-vmr    '//&
+          &'[o2][cm^-3]   [ox][1/cm^3]    [o][1/cm^3]   [o3][1/cm^3]      topo3[DU]'
+         do zi=1,zanz
+            write(10,fmt='(f9.0,1x,i9,1x,i9,1x,i9,1x,f9.2,1x,f9.2,9(1x,E14.4))')&
+             &z(zi),year(ti),month(ti),day(ti),time(ti),sza(ti),&
+             &o2(zi)/air(zi),ox(ti,zi)/air(zi),o(ti,zi)/air(zi),o3(ti,zi)/air(zi),&
+             &o2(zi),ox(ti,zi),o(ti,zi),o3(ti,zi),topo3(ti,zi)
+         enddo
+      endif
+   enddo
+   close(10)
+
+   !for the last year for all levels: a file with data on the first of each month at 12:00UT  
+   do zi=1,zanz
+      write(filename,fmt='(i4.4)') int(z(zi))
+      open(10,file='results/annual_cycle'//filename(3:4)//'km.dat')
+      write(10,fmt='(a13)') filename(3:4)//'km altitude'
+      write(10,fmt='(a195)') '  alt.[km]     year     month       day      hour  SZA[deg]         '//&
+       &'o2-vmr         ox-vmr          o-vmr         o3-vmr    '//&
+       &'[o2][cm^-3]   [ox][1/cm^3]    [o][1/cm^3]   [o3][1/cm^3]      topo3[DU]'
+      do ti=1,tianz
+         if ((year(ti).eq.year(tianz-int(24*365/timestep))).and.(day(ti).eq.1).and.(abs(time(ti)-12.).le.0.1)) then
+            write(10,fmt='(f9.0,1x,i9,1x,i9,1x,i9,1x,f9.2,1x,f9.2,9(1x,E14.4))')&
+             &z(zi),year(ti),month(ti),day(ti),time(ti),sza(ti),&
+             &o2(zi)/air(zi),ox(ti,zi)/air(zi),o(ti,zi)/air(zi),o3(ti,zi)/air(zi),&
+             &o2(zi),ox(ti,zi),o(ti,zi),o3(ti,zi),topo3(ti,zi)
+         endif
+      enddo
+   enddo
+   close(10)
+
+   !on the mid-summer day of the last year: hourly data (one file per level)
+   do zi=1,zanz
+      write(filename,fmt='(i4.4)') int(z(zi))
+      open(10,file='results/diurnal_cycle'//filename(3:4)//'km.dat')
+      write(10,fmt='(a13)') filename(3:4)//'km altitude'
+      write(10,fmt='(a195)') '  alt.[km]     year     month       day      hour  SZA[deg]         '//&
+       &'o2-vmr         ox-vmr          o-vmr         o3-vmr    '//&
+       &'[o2][cm^-3]   [ox][1/cm^3]    [o][1/cm^3]   [o3][1/cm^3]      topo3[DU]'
+      do ti=1,tianz
+         if ((year(ti).eq.year(tianz-int(24*365/timestep))).and.(month(ti).eq.6).and.(day(ti).eq.21)) then
+            write(10,fmt='(f9.0,1x,i9,1x,i9,1x,i9,1x,f9.2,1x,f9.2,9(1x,E14.4))')&
+            & z(zi),year(ti),month(ti),day(ti),time(ti),sza(ti),&
+            &o2(zi)/air(zi),ox(ti,zi)/air(zi),o(ti,zi)/air(zi),o3(ti,zi)/air(zi),&
+            &o2(zi),ox(ti,zi),o(ti,zi),o3(ti,zi),topo3(ti,zi)
+         endif
+      enddo
+   enddo
+   close(10)
