@@ -65,20 +65,20 @@ program oxmodel
    !********
 
    !some basic parameters:
-   albedo=.138           !fill in number (real, albedo at the location of the model run)
-   lon=              !fill in number (real, longitude of the model run in degrees)
-   lat=              !fill in number (real, latitude of the model run in degrees)
+   albedo=0.3           !fill in number (real, albedo at the location of the model run)
+   lon=0              !fill in number (real, longitude of the model run in degrees)
+   lat=40              !fill in number (real, latitude of the model run in degrees)
 
    !Start date und -time.
-   startyear=        !fill in number (integer, year)
-   startmonth=       !fill in number (integer, month)
-   startday=         !fill in number (integer, day)
-   starttime=        !fill in number (real, time in UT)
+   startyear=2000        !fill in number (integer, year)
+   startmonth=1       !fill in number (integer, month)
+   startday=1         !fill in number (integer, day)
+   starttime=0.        !fill in number (real, time in UT)
          
    !integration time and integration timestep
-   integrationtime=          !fill in number (real, length of the modellrun in hours)
+   integrationtime=438300.          !fill in number (real, length of the modellrun in hours)
    timestep=1.               !fill in number (timestep of the integration in hours)
-
+   tianz = integrationtime/timestep
    !vertical grid:
    zanz=18
    z(1)=1.
@@ -128,26 +128,151 @@ program oxmodel
    !*****************************************
    ! Insert the main body of the program here
    !*****************************************
+   
+   ! Set initial values for O, Ox, O3, overhead ozone, datetime
+   o(1,:) = 0
+   o3(1,:) = 0
+   ox(1,:) = 0
+   topo3(1,:) = 0
+   
+   year(1) = startyear
+   month(1) = startmonth
+   day(1) = startday
+   time(1) = starttime
+   
+   ! Loop over time
+   do ti=2, integrationtime
+     ! Calculate current date and time from timestep
+     call newdate(year(ti-1),month(ti-1),day(ti-1),time(ti-1),timestep,year(ti),month(ti),day(ti),time(ti))
+     
+     ! Calculate sza
+     sza(ti) = make_sza(lon,lat,year(ti),month(ti),day(ti),time(ti))
+     ! Loop over level
+     do zi=1, zanz
+       ! Calculate reaction constants
+       KO_O2 = make_KO_O2(t(zi),air(zi))
+       KO_O3 = make_KO_O3(t(zi))
+       
+       ! Calculate photolysis freq
+       !write(*,*) z(zi),sza(ti),topo3(ti-1,zi),albedo
+       
+JO2 = make_JO2(jgridz,jgridzanz,jgridsza,jgridszaanz,jgridtopo3,jgridtopo3anz,jgridalbedo,jgridalbedoanz,&
+ &JO2log_array,z(zi),sza(ti),topo3(ti-1,zi),albedo)
+       JO3 = make_JO3(jgridz,jgridzanz,jgridsza,jgridszaanz,jgridtopo3,jgridtopo3anz,jgridalbedo,jgridalbedoanz,&
+ &JO3log_array,z(zi),sza(ti),topo3(ti-1,zi),albedo)
 
+       ! Calculate new Ox conc. at level zi
+       ox(ti,zi) = ox(ti-1,zi) + (2*JO2*o2(zi) - 2*KO_O3*o(ti-1,zi)*o3(ti-1,zi))
+    
+       ! At altitude zi calculate O, O3 from Ox
+       o3(ti,zi) = KO_O2 * ox(ti,zi) * o2(zi)/(JO3 + KO_O2 * o2(zi))
+       o(ti,zi) = JO3*ox(ti,zi)/(KO_O2*o2(zi) + JO3)
+       
+     enddo    
+    ! Calculate profile of overhead ozone
+    
+    call make_topo3(z,zanz,maxzanz,ti,maxtimeanz,o3,topo3)
+enddo
+   
+   ! Output module
+   !**********      
+   ! write program output
+   !**********      
+
+   !one file per vertical level: annually on 1st January at 12:00 UT
+   do zi=1,zanz
+      write(filename,fmt='(i4.4)') int(z(zi))
+      open(10,file='results/'//filename(3:4)//'km.dat')
+      write(10,fmt='(a13)') filename(3:4)//'km altitude'
+      write(10,fmt='(a195)') '  alt.[km]     year     month       day      hour  SZA[deg]         '//&
+       &'o2-vmr         ox-vmr          o-vmr         o3-vmr    '//&
+       &'[o2][cm^-3]   [ox][1/cm^3]    [o][1/cm^3]   [o3][1/cm^3]      topo3[DU]'
+      do ti=1,tianz
+         if ((month(ti).eq.1).and.(day(ti).eq.1).and.(abs(time(ti)-12.).le.0.1)) then
+            write(10,fmt='(f9.0,1x,i9,1x,i9,1x,i9,1x,f9.2,1x,f9.2,9(1x,E14.4))')&
+             &z(zi),year(ti),month(ti),day(ti),time(ti),sza(ti),&
+             &o2(zi)/air(zi),ox(ti,zi)/air(zi),o(ti,zi)/air(zi),o3(ti,zi)/air(zi),&
+             &o2(zi),ox(ti,zi),o(ti,zi),o3(ti,zi),topo3(ti,zi)
+         endif
+      enddo
+   enddo
+   close(10)
+
+   !one vertical profile per year in separate files: annually on 1st January at 12:00 UT
+   do ti=1,tianz
+      if ((month(ti).eq.1).and.(day(ti).eq.1).and.(abs(time(ti)-12.).le.0.1)) then
+         write(filename,fmt='(i4.4)') year(ti)
+         open(10,file='results/year'//filename//'.dat')
+         write(10,fmt='(a9)') 'Year '//filename
+         write(10,fmt='(a195)') '  alt.[km]     year     month       day      hour  SZA[deg]         '//&
+          &'o2-vmr         ox-vmr          o-vmr         o3-vmr    '//&
+          &'[o2][cm^-3]   [ox][1/cm^3]    [o][1/cm^3]   [o3][1/cm^3]      topo3[DU]'
+         do zi=1,zanz
+            write(10,fmt='(f9.0,1x,i9,1x,i9,1x,i9,1x,f9.2,1x,f9.2,9(1x,E14.4))')&
+             &z(zi),year(ti),month(ti),day(ti),time(ti),sza(ti),&
+             &o2(zi)/air(zi),ox(ti,zi)/air(zi),o(ti,zi)/air(zi),o3(ti,zi)/air(zi),&
+             &o2(zi),ox(ti,zi),o(ti,zi),o3(ti,zi),topo3(ti,zi)
+         enddo
+      endif
+   enddo
+   close(10)
+
+   !for the last year for all levels: a file with data on the first of each month at 12:00UT  
+   do zi=1,zanz
+      write(filename,fmt='(i4.4)') int(z(zi))
+      open(10,file='results/annual_cycle'//filename(3:4)//'km.dat')
+      write(10,fmt='(a13)') filename(3:4)//'km altitude'
+      write(10,fmt='(a195)') '  alt.[km]     year     month       day      hour  SZA[deg]         '//&
+       &'o2-vmr         ox-vmr          o-vmr         o3-vmr    '//&
+       &'[o2][cm^-3]   [ox][1/cm^3]    [o][1/cm^3]   [o3][1/cm^3]      topo3[DU]'
+      do ti=1,tianz
+         if ((year(ti).eq.year(tianz-int(24*365/timestep))).and.(day(ti).eq.1).and.(abs(time(ti)-12.).le.0.1)) then
+            write(10,fmt='(f9.0,1x,i9,1x,i9,1x,i9,1x,f9.2,1x,f9.2,9(1x,E14.4))')&
+             &z(zi),year(ti),month(ti),day(ti),time(ti),sza(ti),&
+             &o2(zi)/air(zi),ox(ti,zi)/air(zi),o(ti,zi)/air(zi),o3(ti,zi)/air(zi),&
+             &o2(zi),ox(ti,zi),o(ti,zi),o3(ti,zi),topo3(ti,zi)
+         endif
+      enddo
+   enddo
+   close(10)
+
+   !on the mid-summer day of the last year: hourly data (one file per level)
+   do zi=1,zanz
+      write(filename,fmt='(i4.4)') int(z(zi))
+      open(10,file='results/diurnal_cycle'//filename(3:4)//'km.dat')
+      write(10,fmt='(a13)') filename(3:4)//'km altitude'
+      write(10,fmt='(a195)') '  alt.[km]     year     month       day      hour  SZA[deg]         '//&
+       &'o2-vmr         ox-vmr          o-vmr         o3-vmr    '//&
+       &'[o2][cm^-3]   [ox][1/cm^3]    [o][1/cm^3]   [o3][1/cm^3]      topo3[DU]'
+      do ti=1,tianz
+         if ((year(ti).eq.year(tianz-int(24*365/timestep))).and.(month(ti).eq.6).and.(day(ti).eq.21)) then
+            write(10,fmt='(f9.0,1x,i9,1x,i9,1x,i9,1x,f9.2,1x,f9.2,9(1x,E14.4))')&
+            & z(zi),year(ti),month(ti),day(ti),time(ti),sza(ti),&
+            &o2(zi)/air(zi),ox(ti,zi)/air(zi),o(ti,zi)/air(zi),o3(ti,zi)/air(zi),&
+            &o2(zi),ox(ti,zi),o(ti,zi),o3(ti,zi),topo3(ti,zi)
+         endif
+      enddo
+   enddo
+   close(10)
 end
                
 !***********************************************************************
 function make_KO_O2(t,air)
 !***********************************************************************
    implicit none
-   real t, air
+   real t, air, make_KO_O2
    
    !*****************************************
    ! Insert code to calculate KO_O2
    !*****************************************
-   make_KO_O2 = (6.0e-34*(t/300.)**-2.4) * air
+   make_KO_O2 = 6.0e-34*((t/300.)**(-2.4)) * air
 end
     
 !***********************************************************************
 function make_KO_O3(t)
 !***********************************************************************
    implicit none
-   real t
+   real t, make_KO_O3
    
    !*****************************************
    ! Insert code to calculate KO_O3
