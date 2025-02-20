@@ -1,0 +1,5 @@
+cd 'C:\Ablage\Vortraege+Reisen\Vorlesung\2013-Christchurch\ComputerLab\chapmanmodel\2D-model\results'
+
+set xrange  [-90:90] 
+  
+splot "totoz_lat-month.dat"
