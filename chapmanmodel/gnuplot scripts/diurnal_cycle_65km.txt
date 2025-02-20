@@ -1,4 +1,4 @@
-cd 'cd 'C:\Users\mrex\Desktop\Ablage\Vortraege+Reisen\Vorlesung\2021-22WS Potsdam\ComputerLab\chapmanmodel\results''
+cd "C:/Users/kilia/Documents/Git/AtmosphericChemistry/chapmanmodel/results"
 
 set xrange [1.0:24.0]
 set yrange [*:*]
@@ -13,4 +13,4 @@ set xtics 3
 
 set terminal windows font 'Arial,10'
 
-plot "diurnal_cycle65km.dat" using 5:(1e-12*$14) title "O3" with lines, "diurnal_cycle65km.dat" using 5:(1e-12*$12) title "Ox" with lines
+plot "diurnal_cycle65km.dat" using 5:(1e-12*$14) title "O3" with lines, "diurnal_cycle65km.dat" using 5:(1e-12*$12) title "Ox" with lines, "diurnal_cycle65km.dat" using 5:(1e-12*$13) title "O" with lines

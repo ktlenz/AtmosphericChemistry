@@ -1,0 +1,16 @@
+cd 'C:/Users/mrex/Desktop/Ablage/Vortraege+Reisen/Vorlesung/2021-22WS Potsdam/ComputerLab/chapmanmodel/2D-model/results'
+
+set xrange  [-90:90] 
+set xrange  [1:12]                               
+set yrange  [-90:90] 
+set zrange  [*:*]
+
+set xlabel "Month"
+set ylabel "Latitude [deg]"
+set title "Total ozone [DU]
+
+set xtic 1
+
+set pm3d map 
+
+splot "totoz_lat-month.dat" using 2:1:3 with pm3d
