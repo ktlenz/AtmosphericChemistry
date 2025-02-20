@@ -1,20 +1,19 @@
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(54) : warning 242 - Variable TIANZ has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(59) : warning 197 - Variable FILENAME has been declared but not used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(241) : warning 242 - Variable ZSCAL has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(242) : warning 242 - Variable N2 has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(243) : warning 242 - Variable O has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(244) : warning 242 - Variable O1D has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(244) : warning 242 - Variable O3 has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(244) : warning 242 - Variable TOPO3 has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(357) : warning 242 - Variable BETA has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(368) : warning 242 - Variable PI has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(408) : warning 676 - In a call to MAKE_TOPO3 from another procedure, the seventh argument was of type REAL(KIND=1), it is now REAL(KIND=1)
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(787) : warning 242 - Variable RSE has been given a value but never used
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(826) : warning 179 - Comparing floating point quantities for equality may give misleading results
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(838) : warning 179 - Comparing floating point quantities for equality may give misleading results
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(850) : warning 179 - Comparing floating point quantities for equality may give misleading results
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(862) : warning 179 - Comparing floating point quantities for equality may give misleading results
-C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.F90(984) : comment 1005 - This declaration of RR has caused the intrinsic of the same name to be inaccessible
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(380) : warning 242 - Variable ZSCAL has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(381) : warning 242 - Variable N2 has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(382) : warning 242 - Variable O has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(383) : warning 242 - Variable O1D has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(383) : warning 242 - Variable O3 has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(383) : warning 242 - Variable TOPO3 has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(496) : warning 242 - Variable BETA has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(507) : warning 242 - Variable PI has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(547) : warning 676 - In a call to MAKE_TOPO3 from another procedure, the sixth argument was of type REAL(KIND=1), it is now REAL(KIND=1)
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(547) : warning 676 - In a call to MAKE_TOPO3 from another procedure, the seventh argument was of type REAL(KIND=1), it is now REAL(KIND=1)
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(926) : warning 242 - Variable RSE has been given a value but never used
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(965) : warning 179 - Comparing floating point quantities for equality may give misleading results
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(977) : warning 179 - Comparing floating point quantities for equality may give misleading results
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(989) : warning 179 - Comparing floating point quantities for equality may give misleading results
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(1001) : warning 179 - Comparing floating point quantities for equality may give misleading results
+C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.F90(1123) : comment 1005 - This declaration of RR has caused the intrinsic of the same name to be inaccessible
 [SLINK64 v3.10, Copyright (c) Silverfrost Ltd. 2015-2023]
 Loading C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\lgotemp@.obj
-Creating executable file C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d.exe
+Creating executable file C:\Users\kilia\Documents\Git\AtmosphericChemistry\chapmanmodel-2d\ox-model-computerlab-step2d - Copy.exe

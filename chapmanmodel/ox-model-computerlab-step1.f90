@@ -142,6 +142,7 @@ program oxmodel
    
    ! Loop over time
    do ti=2, integrationtime
+     write(*,*) ti
      ! Calculate current date and time from timestep
      call newdate(year(ti-1),month(ti-1),day(ti-1),time(ti-1),timestep,year(ti),month(ti),day(ti),time(ti))
      

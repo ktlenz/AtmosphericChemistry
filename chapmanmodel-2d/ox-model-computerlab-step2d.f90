@@ -72,23 +72,21 @@ program oxmodel
    lon=0.              !fill in number (real, longitude of the model run in degrees)
    
    !latitude grid.
-   latanz=7
+   latanz=5
    lat(1)=90.
-   lat(2)=30.
-   lat(3)=60.
-   lat(4)=0.
-   lat(5)=-30.
-   lat(6)=-60.
-   lat(7)=-90.
+   lat(2)=45.
+   lat(3)=0.
+   lat(4)=-45.
+   lat(5)=-90.
 
    !Start date und -time.
-   startyear=2000        !fill in number (integer, year)
+   startyear=2000     !fill in number (integer, year)
    startmonth=1       !fill in number (integer, month)
    startday=1         !fill in number (integer, day)
-   starttime=0.        !fill in number (real, time in UT)
+   starttime=0.       !fill in number (real, time in UT)
          
    !integration time and integration timestep
-   integrationtime=438300.          !fill in number (real, length of the modellrun in hours)
+   integrationtime=438300.   !fill in number (real, length of the modellrun in hours)
    timestep=1.               !fill in number (timestep of the integration in hours)
    tianz = int(integrationtime/timestep)
    
@@ -154,7 +152,7 @@ program oxmodel
       time(1) = starttime
       
       ! Loop over time
-      do ti=2, integrationtime
+      do ti=2, int(integrationtime)
          write(*,*) "ti:", ti
          ! Calculate current date and time from timestep
          call newdate(year(ti-1),month(ti-1),day(ti-1),time(ti-1),timestep,year(ti),month(ti),day(ti),time(ti))
