@@ -14,4 +14,4 @@ set xtics 3
 
 set terminal windows font 'Arial,10'
 
-plot "diurnal_cycle60km.dat" using 5:(1e-12*$14) title "O3" with lines, "diurnal_cycle60km.dat" using 5:(1e-12*$12) title "Ox" with lines, "diurnal_cycle60km.dat" using 5:(1e-12*$13) title "O" with lines
+plot "lat90_diurnal_cycle60km.dat" using 5:(1e-12*$14) title "O3 (90)" with lines, "lat90_diurnal_cycle60km.dat" using 5:(1e-12*$12) title "Ox (90)" with lines, "lat90_diurnal_cycle60km.dat" using 5:(1e-12*$13) title "O (90)" with lines, "lat45_diurnal_cycle60km.dat" using 5:(1e-12*$14) title "O3 (45)" with lines, "lat45_diurnal_cycle60km.dat" using 5:(1e-12*$12) title "Ox (45)" with lines, "lat45_diurnal_cycle60km.dat" using 5:(1e-12*$13) title "O (45)" with lines

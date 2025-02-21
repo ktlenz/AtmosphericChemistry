@@ -74,7 +74,7 @@ program oxmodel
    
    !latitude grid.
    latanz=13
-   lat(1)=-90.
+   lat(1)=90.
    lat(2)=75.
    lat(3)=60.
    lat(4)=45.

@@ -11,4 +11,4 @@ set grid
 
 set terminal windows font 'Arial,10'
 
-plot "year2001.dat" using (1e-12*$14):1 title "year 2001" with lines, "year2005.dat" using (1e-12*$14):1 title "year 2005" with lines,"year2049.dat" using (1e-12*$14):1 title "year 2049" with lines
+plot "lat90_year2049.dat" using (1e-12*$14):1 title "Lat 90" with lines,"lat45_year2049.dat" using (1e-12*$14):1 title "Lat 45" with lines, "lat00_year2049.dat" using (1e-12*$14):1 title "Lat 0" with lines,"lat45n_year2049.dat" using (1e-12*$14):1 title "Lat -45" with lines, "lat90n_year2049.dat" using (1e-12*$14):1 title "Lat -90" with lines
